@@ -16,6 +16,8 @@
 
 @implementation ViewController
 
+BOOL empty = FALSE;
+
 - (void)viewDidLoad
 {
     _allSelected = NO;
@@ -55,6 +57,7 @@
     self.cart = nil;
     self.cart = [[NSMutableArray alloc] initWithCapacity:0];
     [self.cartView reloadData];
+    empty = TRUE;
 }
 
 //should add 50 bananas to the cart and display them!
@@ -64,7 +67,16 @@
     _emptyCart.enabled = YES;
     _fillCart.enabled = NO;
     
-   //Fill the cart again
+    //Fill the cart again
+    if ((empty = true)) {
+        for (int i=0; i<50; i++) {
+            Fruit *tempFruit = [[Fruit alloc] initWithWithName:@"Bananas" andColor:@"Yellow" andShape:@"Curvy"];
+            tempFruit.url = @"http://en.m.wikipedia.org/wiki/Banana";
+            [_cart addObject:tempFruit];
+        }
+        empty = FALSE;
+    }
+    [self.cartView reloadData];
     
 }
 
