@@ -19,13 +19,13 @@
 - (void)viewDidLoad
 {
     _allSelected = NO;
+    _fillCart.enabled = NO;
     _cart = [[NSMutableArray alloc] initWithCapacity:0];
     
     for (int i=0; i<50; i++) {
         Fruit *tempFruit = [[Fruit alloc] initWithWithName:@"Bananas" andColor:@"Yellow" andShape:@"Curvy"];
         tempFruit.url = @"http://en.m.wikipedia.org/wiki/Banana";
         [_cart addObject:tempFruit];
-        
     }
     
     self.title = @"Banana Bar";
@@ -48,12 +48,23 @@
 //Should remove all of the fruit in the cart.
 -(IBAction)removeAllFruitInCart:(id)sender
 {
-    
+    _allSelected = !_allSelected;
+    _emptyCart.enabled = NO;
+    _fillCart.enabled = YES;
+    _selectAll.enabled = NO;
+    self.cart = nil;
+    self.cart = [[NSMutableArray alloc] initWithCapacity:0];
+    [self.cartView reloadData];
 }
 
 //should add 50 bananas to the cart and display them!
 -(IBAction)fillCartWithBananas:(id)sender
 {
+    _selectAll.enabled = YES;
+    _emptyCart.enabled = YES;
+    _fillCart.enabled = NO;
+    
+   //Fill the cart again
     
 }
 
@@ -109,6 +120,11 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    Fruit *currentFruit =[_cart objectAtIndex:indexPath.row];
+    DetailViewController *detailedView = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle: Nil];
+    detailedView.url = currentFruit.url;
+    
+    [self.navigationController pushViewController:detailedView animated: YES];
 }
 
 @end
